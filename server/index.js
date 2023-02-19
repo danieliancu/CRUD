@@ -11,14 +11,22 @@ const db = mysql.createPool({
     database:"configurator"
 })
 
+const db_livratto = mysql.createPool({
+    host:"localhost",
+    user:"root",
+    password:"",
+    database:"livratto"
+})
+
 app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
 
-app.get('/api/get', (req,res)=>{
-    const sqlSelect = "SELECT * FROM user"
-    db.query(sqlSelect, (err,result)=>{
+
+app.get('/api/livratto/get', (req,res)=>{
+    const sqlSelect = "SELECT * FROM companies"
+    db_livratto.query(sqlSelect, (err,result)=>{
         res.send(result)
     })
 })
