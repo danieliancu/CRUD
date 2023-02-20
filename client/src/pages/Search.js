@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { format, getUnixTime } from 'date-fns'
 import Axios from 'axios'
 
 const Search = () => {
 
-    
-
     const [data, setData] = useState([])
     const [details, setDetails] = useState([])
+    const [search, setSearch] = useState("")
+
+    const handleSearch = () => {
+        {data.filter((item)=>{
+            return search.toLocaleLowerCase() === ""
+            ? item
+            : item.NameCompany.toLowerCase().includes(search.toLowerCase)
+        })}
+    }
 
     useEffect(()=>{
         Axios.get('http://localhost:3001/api/livratto/get').then(response=>{
@@ -19,6 +25,7 @@ const Search = () => {
     const details_company = (id) => {
         setDetails(data.filter(item=>item.idTransport===id))
     }
+
 
   return (
     <div className="admin">
@@ -33,15 +40,24 @@ const Search = () => {
 
             <div className="users">
                 <h2>Directory</h2>
-                <p>Search in over 3000 fields</p>
-                <div className="search">
-                    <input type="text" placeholder="Search"/>
-                    <button>
-                    <span className="material-symbols-outlined">search</span>
-                    </button>
-                </div>
+                <p>Search for {data.length} items: {search}</p>
+
+                <form onSubmit={handleSearch} className="search">
+                <span className="material-symbols-outlined">search</span>
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        onChange = {(e)=>setSearch(e.target.value).toLowerCase()}
+                    />
+                </form>
                 
-                {data.map((item, index)=>
+                {data
+                    .filter((item) => {
+                        return search.toLowerCase() === ""
+                        ? item
+                        : item.NameCompany.includes(search)
+                    })
+                    .map((item, index)=>
                     <div
                         key={index}
                         className="user"
@@ -98,7 +114,7 @@ const Search = () => {
                             <div className="details-list-field">
                                 <p>Address:</p>
                                 <p>
-                                    {item.AddressCompany !== "" && <span>{item.CityCompany} &#8226; </span>} 
+                                    {item.AddressCompany !== "" && <span>{item.CityCompany} <br /> </span>} 
                                     {item.CityCompany    !== "" && <span>{item.CityCompany} &#8226; </span> }
                                     {item.CountyCompany  !== "" && <span>{item.CountyCompany} &#8226; </span>}
                                     {item.CountryCompany !== "" && <span>{item.CountryCompany}</span>}
@@ -111,7 +127,20 @@ const Search = () => {
                                 <br />
                                 {Date.parse(`${item.timestamp}`)}
                             </p>
-                            <p><span class="material-symbols-outlined">check_box</span> Factura </p>
+                            <p>
+                                <span class="material-symbols-outlined">check</span> Verified
+                                <br />
+                                <span class="material-symbols-outlined">check</span> CMR
+                                <br />                                
+                                <span class="material-symbols-outlined">check</span> Factură
+                                <br />
+                                <span class="material-symbols-outlined">check</span> Tracking system
+                                <br />                                                                                               
+                                <span class="material-symbols-outlined">check</span> Aer condiționat
+                                <br />                                                                                                                                 
+                            {item.WhyCompany_yes !=="" && <span class="material-symbols-outlined">check_box</span> }{item.WhyCompany_yes}
+                            
+                            </p>
                         </div>                                                                                                                     
                     </div>
                 </div>

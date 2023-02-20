@@ -148,6 +148,10 @@ nav a:hover {
   line-height: 22px;
 }
 
+.user p:last-child {
+  color:grey;
+}
+
 
 
 /*  Details  */
@@ -160,23 +164,24 @@ nav a:hover {
 
 .search {
   width:100%;
-  display:flex;
-  justify-content: space-between;
+  position:relative;
 }
 
-.search input,
-.search button
+.search span {
+  position:absolute;
+  top:5px;
+  left:5px;
+}
+
+.search input
 {
   margin:0px;
-  width:85%;
+  width:100%;
   cursor:text;
+  padding-left:40px;
 }
 
-.search button {
-  width:14%;
-  padding:0px;
-  cursor:pointer;
-}
+
 
 .details img {
   background-color: lightgrey;
@@ -221,6 +226,7 @@ nav a:hover {
 
 .details-list-field p:first-child {
   font-weight:bold;
+  color:grey;
 }
 
 .details-list-about {
@@ -228,6 +234,7 @@ nav a:hover {
   padding-left:10px;
 }
 
-.details-list-about {
-  
+.details-list-about span {
+  vertical-align: bottom;
+  color:green;
 }
